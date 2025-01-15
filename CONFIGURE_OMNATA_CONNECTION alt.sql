@@ -10,6 +10,7 @@
 -- 2. Execute the proc like so:
 -- call CONFIGURE_OMNATA_CONNECTION(
 --   PLUGIN_FQN => 'MONITORIAL__MSSQL',
+--   PLUGIN_DATABASE => 'OMNATA_MICROSOFT_SQL_SERVER_PLUGIN',
 --   CONNECTION_NAME => 'My Production SQL Server',
 --   CONNECTION_SLUG => 'mssql-prod',
 --   CONNECTIVITY_OPTION => 'privatelink',
@@ -22,6 +23,7 @@
 -- 3. You can re-run the proc to update settings, but use this sparingly as internally it creates a new external access integration then cuts over to it after testing.
 
 CREATE OR REPLACE PROCEDURE CONFIGURE_OMNATA_CONNECTION(
+    PLUGIN_FQN VARCHAR,
     PLUGIN_DATABASE VARCHAR,
     CONNECTION_NAME VARCHAR,
     CONNECTION_SLUG VARCHAR,
@@ -44,6 +46,7 @@ from typing import Dict
 import json
 
 def run(session: Session,
+    plugin_fqn: str,
     plugin_database: str,
     connection_name: str,
     connection_slug: str,
@@ -143,6 +146,3 @@ def run(session: Session,
   
   return "SUCCESS"
 $$;
-
-
-
